@@ -1,28 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:vs_wordle/const/color.dart';
 
 void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MainApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+  Key _appKey = UniqueKey();
+
+  void _toggleThemeMode() {
+    setState(() {
+      _themeMode = _themeMode == ThemeMode.light
+          ? ThemeMode.dark
+          : ThemeMode.light;
+      _appKey = UniqueKey();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'VSwordle',
       debugShowCheckedModeBanner: false, // これなに？
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+
+      key: _appKey,
+      theme: ThemeData.light().copyWith(
+        extensions: const [AppColors.light],
+        splashFactory: NoSplash.splashFactory,
       ),
-      home: GamePage(), 
+      darkTheme: ThemeData.dark().copyWith(
+        extensions: const [AppColors.dark],
+        splashFactory: NoSplash.splashFactory,
+      ),
+      themeMode: _themeMode,
+      home: GamePage(onToggleTheme: _toggleThemeMode), 
     );
   }
 }
 
 class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+  final VoidCallback onToggleTheme;
+
+  const GamePage({super.key, required this.onToggleTheme});
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -34,22 +61,44 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return Scaffold(
+      backgroundColor: appColors.field.Background,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(height: 50),
-            _buildWordGrid(),
+            PreferredSize(
+              preferredSize: Size.fromHeight(1.0), 
+              child: AppBar(
+                backgroundColor: appColors.field.Background,
+                elevation: 0,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.brightness_6, color: appColors.field.TextPrimary),
+                    onPressed: widget.onToggleTheme,
+                  ),
+                ],
+                shape: Border(
+                  bottom: BorderSide(
+                    color: appColors.field.BorderPrimary,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            _buildWordGrid(appColors),
             Spacer(),
-            _buildKeyboard(),
+            _buildKeyboard(appColors),
           ],
         ),
       )
     );
   }
 
-  Widget _buildWordGrid() {
+  Widget _buildWordGrid(AppColors appColors) {
     final totalRows = 6;
     final wordLength = 5;
 
@@ -68,11 +117,14 @@ class _GamePageState extends State<GamePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: letter.split('').map((char) {
             return Container(
-              margin: const EdgeInsets.all(4),
-              width: 48,
-              height: 48,
+              margin: const EdgeInsets.all(2),
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
+                border: Border.all(
+                  color: appColors.field.BorderPrimary,
+                  width: 2.0,
+                ),
               ),
               alignment: Alignment.center,
               child: Text(
@@ -86,7 +138,7 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
-  Widget _buildKeyboard() {
+  Widget _buildKeyboard(AppColors appColors) {
     final rows = [
       'QWERTYUIOP',
       'ASDFGHJKL',
@@ -98,40 +150,53 @@ class _GamePageState extends State<GamePage> {
         for (int i = 0; i < 2; i++)
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: rows[i].split('').map(_buildKeyButton).toList(),
+            children: rows[i]
+              .split('')
+              .map((char) => _buildKeyButton(char, appColors))
+              .toList(),
           ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSpecialKey('ENTER', _onEnter, flex: 1.5),
-            ...rows[2].split('').map(_buildKeyButton),
-            _buildSpecialKey('Delete', _onBackspace, icon: true, flex: 1.5),
+            _buildSpecialKey('ENTER', _onEnter, appColors, flex: 1.5),
+            ...rows[2]
+              .split('')
+              .map((char) => _buildKeyButton(char, appColors)),
+            _buildSpecialKey('Delete', _onBackspace,appColors, icon: true, flex: 1.5),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildKeyButton(String char) {
+  Widget _buildKeyButton(String char, AppColors appColors) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
       child: SizedBox(
         width: 25,
         height: 48,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
+        child: Material(
+          elevation: 0,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: appColors.field.Keyboard,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              padding: EdgeInsets.zero, // 必要なら padding を削る
             ),
-            padding: EdgeInsets.zero, // 必要なら padding を削る
-          ),
-          onPressed: () => _onKeyPress(char),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              char,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              softWrap: false,
+            onPressed: () => _onKeyPress(char),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                char,
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold,
+                  color: appColors.field.TextPrimary,
+                ),
+                softWrap: false,
+              ),
             ),
           ),
         )
@@ -139,7 +204,7 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
-Widget _buildSpecialKey(String label, VoidCallback onPressed,
+Widget _buildSpecialKey(String label, VoidCallback onPressed, AppColors appColors,
     {bool icon = false, double flex = 1}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -148,6 +213,7 @@ Widget _buildSpecialKey(String label, VoidCallback onPressed,
       height: 48,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          backgroundColor: appColors.field.Keyboard,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
           ),
@@ -156,9 +222,13 @@ Widget _buildSpecialKey(String label, VoidCallback onPressed,
         onPressed: onPressed,
         child: FittedBox(
           fit: BoxFit.scaleDown,
-          child: icon ? const Icon(Icons.backspace) : Text(
+          child: icon ? Icon(Icons.backspace, color: appColors.field.TextPrimary) : Text(
             label, 
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold), 
+            style: TextStyle(
+              fontSize: 16, 
+              fontWeight: FontWeight.bold,
+              color: appColors.field.TextPrimary,
+            ), 
             softWrap: false
           ),
         ),
