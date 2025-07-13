@@ -82,32 +82,35 @@ class AppColors extends ThemeExtension<AppColors> {
 
   static const AppColors light = AppColors(
     state: StateColorSet(
-      hit: Color(0xFF528D4D),
-      blow: Color(0xFFB59F3A),
-      absent: Color(0xFF3A3A3C),
+      hit: Color(0xFF6AAA64),
+      blow: Color(0xFFC9B458),
+      absent: Color(0xFF787C7E),
     ),
+
     field: FieldColorSet(
       Background: Color(0xFFFFFFFF),
       BorderPrimary: Color(0xFFD3D6DA),
       BorderSecondary: Color(0xFF86898C),
       Keyboard: Color(0xFFD3D6DC),
       TextPrimary: Color(0xFF000000),
-      TextSecondary: Color(0xFF818385),
+      TextSecondary: Color(0xFFFFFFFF),
     ),
   );
+
   static const AppColors dark = AppColors(
     state: StateColorSet(
       hit: Color(0xFF528D4D),
       blow: Color(0xFFB59F3A),
       absent: Color(0xFF3A3A3C),
     ),
+
     field: FieldColorSet(
       Background: Color(0xFF121212),
       BorderPrimary: Color(0xFF3A3A3C),
       BorderSecondary: Color(0xFF565759),
       Keyboard: Color(0xFF818385),
       TextPrimary: Color(0xFFF8F8F8),
-      TextSecondary: Color(0xFF818385),
+      TextSecondary: Color(0xFFF8F8F8),
     ),
   );
 
