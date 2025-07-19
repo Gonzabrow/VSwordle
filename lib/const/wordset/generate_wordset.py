@@ -7,7 +7,7 @@ url = 'https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.t
 res = requests.get(url)
 words = res.text.splitlines()
 
-five_letter_words = sorted(set(w.lower() for w in words if len(w) == 5 and w.isalpha()))
+five_letter_words = sorted(set(w.upper() for w in words if len(w) == 5 and w.isalpha()))
 
 with open('word_set.dart', 'w', encoding='utf-8') as f:
     f.write('const Set<String> wordSet = {\n')

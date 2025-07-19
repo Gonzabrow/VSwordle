@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vs_wordle/const/type.dart';
+import 'package:vs_wordle/const/wordset/word_set.dart';
 import 'package:vs_wordle/game/word_check.dart';
 import 'package:vs_wordle/game/word_select.dart';
 
@@ -50,11 +51,11 @@ class GameController extends StateNotifier<GameState> {
     if (state.currentGuess.length < 5) return;
 
     final guess = state.currentGuess.toUpperCase();
-    // if (!wordSet.contains(guess)) {
-    //   // エラーメッセージ出したい
+    if (!wordSet.contains(guess)) {
+      // エラーメッセージ出したい
       
-    //   return;
-    // }
+      return;
+    }
     final answer = ref.read(answerWordProvider);
     final results = checkGuess(guess, answer);
 
