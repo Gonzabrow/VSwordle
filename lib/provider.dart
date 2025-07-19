@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vs_wordle/const/type.dart';
 import 'package:vs_wordle/game/word_check.dart';
-import 'package:vs_wordle/word_set.dart';
 
 // Theme mode provider
 class ThemeModeNotifier extends Notifier<ThemeMode> {
@@ -45,11 +44,11 @@ class GameController extends StateNotifier<GameState> {
     if (state.currentGuess.length < 5) return;
 
     final guess = state.currentGuess.toUpperCase();
-    if (!wordSet.contains(guess)) {
-      // エラーメッセージ出したい
+    // if (!wordSet.contains(guess)) {
+    //   // エラーメッセージ出したい
       
-      return;
-    }
+    //   return;
+    // }
 
     final results = checkGuess(guess);
 
