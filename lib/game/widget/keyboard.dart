@@ -33,7 +33,7 @@ class Keyboard extends ConsumerWidget{
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSpecialKey('ENTER', gameController.onEnter, appColors, flex: 1.5),
+            _buildSpecialKey('ENTER', () => gameController.onEnter(ref), appColors, flex: 1.5),
             ...rows[2]
               .split('')
               .map((char) => _buildKeyButton(char, appColors, gameState, gameController)),

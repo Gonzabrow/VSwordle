@@ -1,8 +1,6 @@
 import 'package:vs_wordle/const/type.dart';
 
-final String answer = 'APPLE'; // あとでランダムに選ぶようにする
-
-List<LetterResult> checkGuess(String guess) {
+List<LetterResult> checkGuess(String guess, String answer) {
   final result = List<LetterResult>.generate(guess.length, (index) => LetterResult(guess[index], LetterStatus.absent));
   final answerChars = answer.split('');
   final used = List.filled(answerChars.length, false);

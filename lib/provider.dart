@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vs_wordle/const/type.dart';
 import 'package:vs_wordle/game/word_check.dart';
+import 'package:vs_wordle/game/word_select.dart';
+
+// Answer word provider
+final answerWordProvider = Provider<String>((ref) {
+  return getRandomWord();
+});
 
 // Theme mode provider
 class ThemeModeNotifier extends Notifier<ThemeMode> {
@@ -40,7 +46,7 @@ class GameController extends StateNotifier<GameState> {
     }
   }
   
-  void onEnter() {
+  void onEnter(ref) {
     if (state.currentGuess.length < 5) return;
 
     final guess = state.currentGuess.toUpperCase();
@@ -49,8 +55,8 @@ class GameController extends StateNotifier<GameState> {
       
     //   return;
     // }
-
-    final results = checkGuess(guess);
+    final answer = ref.read(answerWordProvider);
+    final results = checkGuess(guess, answer);
 
     state = state.copyWith(
       currentGuess: '',
