@@ -2,32 +2,31 @@ import 'package:vs_wordle/const/type.dart';
 
 List<LetterResult> checkGuess(String guess, String answer) {
   final result = List<LetterResult>.generate(guess.length, (index) => LetterResult(guess[index], LetterStatus.absent));
+  final guessChars = guess.split('');
   final answerChars = answer.split('');
-  final used = List.filled(answerChars.length, false);
 
-  // Hit
+  // 各文字の出現数をカウント
+  final Map<String, int> charCounts = {};
+  for (final char in answerChars) {
+    charCounts[char] = (charCounts[char] ?? 0) + 1;
+  }
+
+  // HIT
   for (int i = 0; i < guess.length; i++) {
-    if (guess[i] == answerChars[i]) {
-    result[i] = LetterResult(guess[i], LetterStatus.hit);
-    used[i] = true;
+    if (guessChars[i] == answerChars[i]) {
+      result[i] = LetterResult(guessChars[i], LetterStatus.hit);
+      charCounts[guessChars[i]] = charCounts[guessChars[i]]! - 1;
     }
   }
 
-  // Blow
-   for (int i = 0; i < guess.length; i++) {
+  // BLOW
+  for (int i = 0; i < guess.length; i++) {
     if (result[i].status == LetterStatus.hit) continue;
 
-    for (int j = 0; j < answerChars.length; j++) {
-      if (!used[j] && guess[i] == answerChars[j]) {
-        result[i] = LetterResult(guess[i], LetterStatus.blow);
-        used[j] = true;
-        break;
-      }
-    }
-
-    // HIT でも BLOW でもなければ ABSENT
-    if (result[i].status == LetterStatus.absent) {
-      result[i] = LetterResult(guess[i], LetterStatus.absent);
+    final char = guessChars[i];
+    if (charCounts.containsKey(char) && charCounts[char]! > 0) {
+      result[i] = LetterResult(char, LetterStatus.blow);
+      charCounts[char] = charCounts[char]! - 1;
     }
   }
 
