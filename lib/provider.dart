@@ -4,6 +4,7 @@ import 'package:vs_wordle/const/type.dart';
 import 'package:vs_wordle/const/wordset/word_set.dart';
 import 'package:vs_wordle/game/word_check.dart';
 import 'package:vs_wordle/game/word_select.dart';
+import 'package:vs_wordle/const/flush_bar.dart';
 
 // Answer word provider
 final answerWordProvider = Provider<String>((ref) {
@@ -53,7 +54,7 @@ class GameController extends StateNotifier<GameState> {
     final guess = state.currentGuess.toUpperCase();
     if (!wordSet.contains(guess)) {
       // エラーメッセージ出したい
-      
+      showTopMessage(ref.context, 'Invalid word: $guess');
       return;
     }
     final answer = ref.read(answerWordProvider);

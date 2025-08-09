@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "another_flushbar",
+      "rootUri": "file:///C:/Users/Yamada/AppData/Local/Pub/Cache/hosted/pub.dev/another_flushbar-1.12.30",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "async",
       "rootUri": "file:///C:/Users/Yamada/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.13.0",
       "packageUri": "lib/",
