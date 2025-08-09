@@ -22,6 +22,7 @@ class GamePageState extends ConsumerState<GamePage> {
               child: AppBar(
                 backgroundColor: appColors.field.Background,
                 elevation: 0,
+                title: Text(ref.watch(answerWordProvider)),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.brightness_6, color: appColors.field.TextPrimary),
