@@ -49,14 +49,17 @@ class GameController extends StateNotifier<GameState> {
   }
   
   void onEnter(ref) {
-    if (state.currentGuess.length < 5) return;
+    if (state.currentGuess.length < 5) {
+      OverlayToast.show(ref.context, message: 'Not enough letters');
+      return;
+    }
 
     final guess = state.currentGuess.toUpperCase();
     if (!wordSet.contains(guess)) {
-      // エラーメッセージ出したい
-      OverlayToast.show(ref.context, message: 'Invalid word: $guess');
+      OverlayToast.show(ref.context, message: 'Not in word list');
       return;
     }
+    
     final answer = ref.read(answerWordProvider);
     final results = checkGuess(guess, answer);
 

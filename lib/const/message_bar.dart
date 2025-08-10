@@ -5,9 +5,9 @@ class OverlayToast {
   static void show(
     BuildContext context, {
     required String message,
-    Duration displayDuration = const Duration(seconds: 2),
+    Duration displayDuration = const Duration(seconds: 1),
     Duration fadeInDuration = const Duration(milliseconds: 10),
-    Duration fadeOutDuration = const Duration(milliseconds: 1000),
+    Duration fadeOutDuration = const Duration(milliseconds: 400),
   }) {
     final overlay = Overlay.of(context);
     late final OverlayEntry overlayEntry;
@@ -23,10 +23,6 @@ class OverlayToast {
 
     overlay.insert(overlayEntry);
 
-    // 一定時間後に削除
-    Future.delayed(displayDuration + fadeInDuration, () {
-      overlayEntry.remove();
-    });
   }
 }
 
@@ -96,7 +92,7 @@ class _ToastWidgetState extends State<_ToastWidget>
       child: FadeTransition(
         opacity: _fade,
         child: Material(
-          color: Colors.transparent,
+          color: Colors.transparent, // これなんなん
           child: Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
