@@ -52,6 +52,13 @@
       ]
     },
     {
+      "name": "another_flushbar",
+      "version": "1.12.30",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
       "name": "flutter_riverpod",
       "version": "2.6.1",
       "dependencies": [
@@ -258,13 +265,6 @@
       "name": "sky_engine",
       "version": "0.0.0",
       "dependencies": []
-    },
-    {
-      "name": "another_flushbar",
-      "version": "1.12.30",
-      "dependencies": [
-        "flutter"
-      ]
     }
   ],
   "configVersion": 1
