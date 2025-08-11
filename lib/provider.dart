@@ -94,3 +94,5 @@ class GameController extends StateNotifier<GameState> {
 }
 
 final gameProvider = StateNotifierProvider<GameController, GameState>((ref) => GameController());
+
+final showFlagProvider = StateProvider<bool>((ref) => false);

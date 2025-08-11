@@ -22,7 +22,22 @@ class GamePageState extends ConsumerState<GamePage> {
               child: AppBar(
                 backgroundColor: appColors.field.Background,
                 elevation: 0,
-                title: Text(ref.watch(answerWordProvider)),
+                centerTitle: true,
+
+                leading: IconButton(
+                  icon: Icon(Icons.visibility),
+                  onPressed: () {
+                    ref.read(showFlagProvider.notifier).state = !ref.read(showFlagProvider);
+                  },
+                ),
+                title: Text(
+                  'answer : ${ref.watch(showFlagProvider) ? ref.watch(answerWordProvider) : '?????'}',
+                  style: TextStyle(
+                    color: appColors.field.TextPrimary,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 actions: [
                   IconButton(
                     icon: Icon(Icons.brightness_6, color: appColors.field.TextPrimary),
