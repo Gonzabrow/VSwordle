@@ -8,7 +8,6 @@
       "WebFetch(domain:docs.partykit.io)",
       "Bash(openspec validate:*)",
       "Skill(openspec:apply)",
-      "Bash(ls -la \"C:\\\\dev\\\\VSwordle\\\\changes\"\" 2>/dev/null || dir \"C:devVSwordlechanges\" 2>nul || echo \"changes directory not found \")",
       "Bash(openspec show:*)"
     ]
   }
