@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(git -C \"C:\\\\dev\\\\VSwordle\" log --oneline -20)",
+      "Bash(git -C \"C:\\\\dev\\\\VSwordle\" remote -v)",
+      "Bash(openspec list:*)",
+      "WebFetch(domain:docs.partykit.io)",
+      "Bash(openspec validate:*)"
+    ]
+  }
+}
