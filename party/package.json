@@ -1,0 +1,22 @@
+{
+  "name": "vswordle-server",
+  "version": "1.0.0",
+  "description": "VSwordle PartyKit server for online multiplayer",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "partykit dev",
+    "deploy": "partykit deploy",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "partykit": "^0.0.115",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.0",
+    "ws": "^8.18.3"
+  },
+  "dependencies": {
+    "partysocket": "^1.1.10"
+  }
+}
