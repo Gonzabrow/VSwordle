@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vs_wordle/const/color.dart';
+import 'package:vs_wordle/game/enter_roomid_page.dart';
 import 'package:vs_wordle/game/widget/menu_button.dart';
 
 class MatchSelectPage extends StatelessWidget {
@@ -31,7 +32,13 @@ class MatchSelectPage extends StatelessWidget {
             const SizedBox(height: 32),
             MenuButton(
               label: 'Private Match',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const EnterRoomIDPage(),
+                  ),
+                );
+              },
               backgroundColor: appColors.ButtonPrimary,
               textColor: appColors.LightText,
               borderColor: appColors.ButtonPrimary,
