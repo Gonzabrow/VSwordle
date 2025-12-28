@@ -20,7 +20,7 @@ class StateColorSet {
   }
 }
 
-class FieldColorSet {
+class GameFieldColorSet {
   final Color Background;
   final Color BorderPrimary;
   final Color BorderSecondary;
@@ -28,7 +28,7 @@ class FieldColorSet {
   final Color TextPrimary;
   final Color TextSecondary;
 
-  const FieldColorSet({
+  const GameFieldColorSet({
     required this.Background,
     required this.BorderPrimary,
     required this.BorderSecondary,
@@ -37,8 +37,8 @@ class FieldColorSet {
     required this.TextSecondary,
   });
 
-  static FieldColorSet lerp(FieldColorSet a, FieldColorSet b, double t) {
-    return FieldColorSet(
+  static GameFieldColorSet lerp(GameFieldColorSet a, GameFieldColorSet b, double t) {
+    return GameFieldColorSet(
       Background: Color.lerp(a.Background, b.Background, t)!,
       BorderPrimary: Color.lerp(a.BorderPrimary, b.BorderPrimary, t)!,
       BorderSecondary: Color.lerp(a.BorderSecondary, b.BorderSecondary, t)!,
@@ -49,24 +49,57 @@ class FieldColorSet {
   }
 }
 
+class StartFieldColorSet {
+  final Color Background;
+  final Color ButtonPrimary;
+  final Color ButtonSecondary;
+  final Color MainText;
+  final Color DarkText;
+  final Color LightText;
+
+  const StartFieldColorSet({
+    required this.Background,
+    required this.ButtonPrimary,
+    required this.ButtonSecondary,
+    required this.MainText,
+    required this.DarkText,
+    required this.LightText,
+  });
+
+  static StartFieldColorSet lerp(StartFieldColorSet a, StartFieldColorSet b, double t) {
+    return StartFieldColorSet(
+      Background: Color.lerp(a.Background, b.Background, t)!,
+      ButtonPrimary: Color.lerp(a.ButtonPrimary, b.ButtonPrimary, t)!,
+      ButtonSecondary: Color.lerp(a.ButtonSecondary, b.ButtonSecondary, t)!,
+      MainText: Color.lerp(a.MainText, b.MainText, t)!,
+      DarkText: Color.lerp(a.DarkText, b.DarkText, t)!,
+      LightText: Color.lerp(a.LightText, b.LightText, t)!,
+    );
+  }
+}
+
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
   final StateColorSet state;
-  final FieldColorSet field;
+  final GameFieldColorSet field;
+  final StartFieldColorSet start;
 
   const AppColors( {
     required this.state,
     required this.field,
+    required this.start,
   } );
 
   @override
   AppColors copyWith({
     StateColorSet? state,
-    FieldColorSet? field,
+    GameFieldColorSet? field,
+    StartFieldColorSet? start,
   }) {
     return AppColors(
       state: state ?? this.state,
       field: field ?? this.field,
+      start: start ?? this.start,
     );
   }
 
@@ -76,7 +109,8 @@ class AppColors extends ThemeExtension<AppColors> {
 
     return AppColors(
       state: StateColorSet.lerp(state, other.state, t),
-      field: FieldColorSet.lerp(field, other.field, t),
+      field: GameFieldColorSet.lerp(field, other.field, t),
+      start: StartFieldColorSet.lerp(start, other.start, t),
     );
   }
 
@@ -87,13 +121,22 @@ class AppColors extends ThemeExtension<AppColors> {
       absent: Color(0xFF787C7E),
     ),
 
-    field: FieldColorSet(
+    field: GameFieldColorSet(
       Background: Color(0xFFFFFFFF),
       BorderPrimary: Color(0xFFD3D6DA),
       BorderSecondary: Color(0xFF86898C),
       Keyboard: Color(0xFFD3D6DC),
       TextPrimary: Color(0xFF000000),
       TextSecondary: Color(0xFFFFFFFF),
+    ),
+
+    start: StartFieldColorSet(
+      Background: Color(0xFFE3E3E1),
+      ButtonPrimary: Color(0xFF121212),
+      ButtonSecondary: Color(0xFFE3E3E1),
+      MainText: Color(0xFF000000),
+      DarkText: Color(0xFF121212),
+      LightText: Color(0xFFE8E8E8),
     ),
   );
 
@@ -104,13 +147,22 @@ class AppColors extends ThemeExtension<AppColors> {
       absent: Color(0xFF3A3A3C),
     ),
 
-    field: FieldColorSet(
-      Background: Color(0xFF121212),
+    field: GameFieldColorSet(
+      Background: Color(0xFF121212), 
       BorderPrimary: Color(0xFF3A3A3C),
       BorderSecondary: Color(0xFF565759),
       Keyboard: Color(0xFF818385),
       TextPrimary: Color(0xFFF8F8F8),
       TextSecondary: Color(0xFFF8F8F8),
+    ),
+
+    start: StartFieldColorSet(
+      Background: Color(0xFFE3E3E1),
+      ButtonPrimary: Color(0xFF121212),
+      ButtonSecondary: Color(0xFFE3E3E1),
+      MainText: Color(0xFF000000),
+      DarkText: Color(0xFF121212),
+      LightText: Color(0xFFE8E8E8),
     ),
   );
 

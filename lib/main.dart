@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vs_wordle/const/color.dart';
-import 'package:vs_wordle/game/game_page.dart';
+import 'package:vs_wordle/game/start_page.dart';
 import 'package:vs_wordle/provider.dart';
 
 void main() {
@@ -33,7 +33,7 @@ class MainApp extends ConsumerWidget {
       ),
       themeMode: themeMode,
       
-      home: const GamePage(), 
+      home: const StartPage(), 
     );
   }
 }

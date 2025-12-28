@@ -4,7 +4,7 @@ import 'package:vs_wordle/const/type.dart';
 import 'package:vs_wordle/const/wordset/word_set.dart';
 import 'package:vs_wordle/game/word_check.dart';
 import 'package:vs_wordle/game/word_select.dart';
-import 'package:vs_wordle/const/message_bar.dart';
+import 'package:vs_wordle/const/func/message_bar.dart';
 
 // Answer word provider
 final answerWordProvider = Provider<String>((ref) {
@@ -68,6 +68,16 @@ class GameController extends StateNotifier<GameState> {
       guesses: [...state.guesses, Guess(guess, results)],
       keyStatuses: _updateKeyStatuses(state.keyStatuses, results),
     );
+
+    //　終了判定
+    if (results.every((result) => result.status == LetterStatus.hit)) {
+      OverlayToast.show(ref.context, message: 'You won!');
+      ref.read(showFlagProvider.notifier).state = true;
+    }
+    else if (state.guesses.length >= 6) {
+      OverlayToast.show(ref.context, message: 'You lost! The answer was $answer');
+      ref.read(showFlagProvider.notifier).state = true;
+    }
   }
 
   Map<String, LetterStatus> _updateKeyStatuses(Map<String, LetterStatus> currentStatus, List<LetterResult> results) {
