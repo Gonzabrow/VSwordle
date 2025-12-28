@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../const/color.dart';
 import '../provider.dart';
 import 'game_page.dart';
+import 'start_page.dart';
 import 'widget/word_grid.dart';
 import 'widget/keyboard.dart';
 
@@ -25,18 +26,33 @@ class GamePageState extends ConsumerState<GamePage> {
                 centerTitle: true,
 
                 leading: IconButton(
-                  icon: Icon(Icons.visibility),
+                  icon: Icon(Icons.arrow_back, color: appColors.field.TextPrimary),
                   onPressed: () {
-                    ref.read(showFlagProvider.notifier).state = !ref.read(showFlagProvider);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const StartPage(),
+                      ),
+                    );
                   },
                 ),
-                title: Text(
-                  'answer : ${ref.watch(showFlagProvider) ? ref.watch(answerWordProvider) : '?????'}',
-                  style: TextStyle(
-                    color: appColors.field.TextPrimary,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.visibility, color: appColors.field.TextPrimary),
+                      onPressed: () {
+                        ref.read(showFlagProvider.notifier).state = !ref.read(showFlagProvider);
+                      },
+                    ),
+                    Text(
+                      'answer : ${ref.watch(showFlagProvider) ? ref.watch(answerWordProvider) : '?????'}',
+                      style: TextStyle(
+                        color: appColors.field.TextPrimary,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 actions: [
                   IconButton(
